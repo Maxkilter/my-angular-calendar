@@ -1,0 +1,14 @@
+<div class="container" cdkDropListGroup>
+  <div class="calendar-container">
+    <app-header />
+    @if (currentView() === "month") {
+      <app-month-view />
+    }
+    @if (currentView() === "week") {
+      <app-week-view />
+    }
+    @if (currentView() === "day") {
+      <app-day-view />
+    }
+  </div>
+</div>

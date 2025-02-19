@@ -1,0 +1,35 @@
+:host {
+  width: 100%;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+
+  h2 {
+    margin: 0;
+  }
+
+  .calendar-view {
+    font-size: 2rem;
+    font-weight: bold;
+    span {
+      font-weight: 100;
+    }
+    .day-name {
+      font-size: 1.2rem;
+      color: gray;
+    }
+  }
+
+  .calendar-controls {
+    :first-child {
+      margin-right: 8px;
+    }
+    display: flex;
+    justify-content: flex-end;
+  }
+}

@@ -1,0 +1,60 @@
+<table cellspacing="0" cellpadding="0" class="calendar-view-week">
+  <thead>
+    <tr>
+      <th></th>
+      @for (weekDay of weekDays; track weekDay; let i = $index) {
+        <th [class.today]="isToday(monthDays()[i])">
+          {{ weekDay }} {{ monthDays()[i].getDate() }}
+        </th>
+      }
+    </tr>
+  </thead>
+  <tbody cdkDropListGroup>
+    @for (
+      timeSlot of timeSlots;
+      let timeSlotIndex = $index;
+      track timeSlotIndex
+    ) {
+      <tr>
+        <td class="calendar-slot-cell">
+          <span>{{ timeSlot }}</span>
+        </td>
+        @for (day of weekDays; track day; let dayIndex = $index) {
+          <td
+            class="cell-overlay"
+            cdkDropList
+            (cdkDropListDropped)="
+              onDrop($event, monthDays()[dayIndex], timeSlot)
+            "
+            [cdkDropListData]="appointments()"
+            tabindex="0"
+            (click)="onSelectDate(monthDays()[dayIndex], timeSlot)"
+          >
+            @for (
+              appointment of appointmentsForDay(monthDays()[dayIndex]);
+              track appointment.uuid
+            ) {
+              @if (appointment.layout.startSlotIndex === timeSlotIndex) {
+                <div
+                  tabindex="0"
+                  class="appointment"
+                  cdkDrag
+                  cdkDragHandle
+                  [cdkDragData]="appointment"
+                  [ngStyle]="{
+                    top: appointment.layout.appointmentTop,
+                    height: appointment.layout.appointmentHeight,
+                    backgroundColor: appointment.color,
+                  }"
+                  (click)="handleAppointment(appointment, $event)"
+                >
+                  <div class="appointment-title">{{ appointment.title }}</div>
+                </div>
+              }
+            }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

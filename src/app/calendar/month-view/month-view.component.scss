@@ -1,0 +1,72 @@
+:host {
+  width: 100%;
+}
+
+.calendar-view-month {
+  table-layout: fixed;
+  margin-top: 24px;
+  width: 100%;
+  border-collapse: collapse;
+
+  .cell-overlay {
+    cursor: pointer;
+  }
+
+  td {
+    padding: 0;
+  }
+
+  thead {
+    th {
+      font-size: 22px;
+      font-weight: 100;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        &:first-child {
+          border-left: 1px solid #ddd;
+        }
+        vertical-align: top;
+        position: relative;
+        height: 150px;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 2px 0;
+
+        &.selected {
+          background-color: #bbdefb;
+        }
+
+        &.today {
+          background-color: #e3f2fd;
+        }
+
+        .date {
+          text-align: right;
+          font-size: 22px;
+          font-weight: 100;
+          padding: 5px 10px 0;
+        }
+      }
+    }
+  }
+
+  .appointment {
+    position: relative;
+    z-index: 9;
+    padding: 6px 12px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

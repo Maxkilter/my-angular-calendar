@@ -1,0 +1,48 @@
+<table class="calendar-view-month">
+  <thead>
+    <tr>
+      @for (day of weekDays; track day) {
+        <th>{{ day }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody cdkDropListGroup>
+    @for (week of weeks(); track $index) {
+      <tr>
+        @for (date of week; track $index) {
+          <td
+            tabindex="0"
+            class="cell-overlay"
+            (click)="onSelectDate(date)"
+            cdkDropList
+            (cdkDropListDropped)="onDrop($event, date)"
+            [cdkDropListData]="appointments()"
+            [class.today]="isToday(date)"
+            [ngStyle]="{ opacity: isCurrentMonth(date) ? '1' : '0.5' }"
+          >
+            <div class="date">
+              {{ date.getDate() }}
+            </div>
+            <div class="appointments">
+              @for (appointment of appointments(); track appointment.uuid) {
+                @if (appointment && isSameDate(appointment.start, date)) {
+                  <div
+                    tabindex="0"
+                    class="appointment"
+                    cdkDrag
+                    cdkDragHandle
+                    [cdkDragData]="appointment"
+                    [ngStyle]="{ backgroundColor: appointment.color }"
+                    (click)="handleAppointment(appointment, $event)"
+                  >
+                    <div>{{ appointment.title }}</div>
+                  </div>
+                }
+              }
+            </div>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

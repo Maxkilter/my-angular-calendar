@@ -1,0 +1,46 @@
+<table cellspacing="0" cellpadding="0" class="calendar-view-day">
+  <tbody cdkDropListGroup>
+    @for (slot of timeSlots; let slotIndex = $index; track slot) {
+      <tr>
+        <td class="calendar-slot-cell">
+          <span>{{ slot }}</span>
+        </td>
+        <td
+          tabindex="0"
+          class="cell-overlay"
+          cdkDropList
+          (cdkDropListDropped)="onDrop($event, monthDays(), slot)"
+          [cdkDropListData]="appointments()"
+          (click)="onSelectDate(monthDays(), slot)"
+        >
+          @for (
+            appointment of appointmentsForDay(monthDays());
+            track appointment.uuid
+          ) {
+            @if (appointment.layout.startSlotIndex === slotIndex) {
+              <div
+                tabindex="0"
+                class="appointment"
+                cdkDrag
+                cdkDragHandle
+                [cdkDragData]="appointment"
+                [ngStyle]="{
+                  top: appointment.layout.appointmentTop,
+                  height: appointment.layout.appointmentHeight,
+                  backgroundColor: appointment.color,
+                }"
+                (click)="handleAppointment(appointment, $event)"
+              >
+                <div class="appointment-title">{{ appointment.title }}</div>
+                <div class="appointment-duration">
+                  {{ getFormattedTime(appointment.start) }} -
+                  {{ getFormattedTime(appointment.end) }}
+                </div>
+              </div>
+            }
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
