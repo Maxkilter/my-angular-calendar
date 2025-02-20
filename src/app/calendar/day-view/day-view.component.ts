@@ -1,21 +1,21 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal } from "@angular/core";
 import {
   CdkDrag,
   CdkDragDrop,
   CdkDragHandle,
   CdkDropList,
   CdkDropListGroup,
-} from '@angular/cdk/drag-drop';
-import { NgStyle } from '@angular/common';
-import { CalendarService } from '../../services/calendar.service';
-import { AppointmentsService } from '../../services/appointments.service';
-import { Appointment } from '../../models/appointment.model';
+} from "@angular/cdk/drag-drop";
+import { NgStyle } from "@angular/common";
+import { CalendarService } from "../../services/calendar.service";
+import { AppointmentsService } from "../../services/appointments.service";
+import { Appointment } from "../../models/appointment.model";
 
 @Component({
-  selector: 'app-day-view',
+  selector: "app-day-view",
   imports: [CdkDrag, CdkDragHandle, CdkDropList, CdkDropListGroup, NgStyle],
-  templateUrl: './day-view.component.html',
-  styleUrl: './day-view.component.scss',
+  templateUrl: "./day-view.component.html",
+  styleUrl: "./day-view.component.scss",
 })
 export class DayViewComponent implements OnInit {
   private calendarService = inject(CalendarService);
@@ -48,10 +48,10 @@ export class DayViewComponent implements OnInit {
   getFormattedTime(time: string): string {
     const date = new Date(time);
     return date.toLocaleTimeString(undefined, {
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   }
 

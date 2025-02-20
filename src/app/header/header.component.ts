@@ -1,16 +1,16 @@
-import { Component, computed, inject } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { Component, computed, inject } from "@angular/core";
+import { MatIcon } from "@angular/material/icon";
 import {
   MatButtonToggle,
   MatButtonToggleGroup,
-} from '@angular/material/button-toggle';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { DatePipe } from '@angular/common';
-import { CalendarService } from '../services/calendar.service';
-import { CalendarView } from '../models/calendar-view.model';
+} from "@angular/material/button-toggle";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { DatePipe } from "@angular/common";
+import { CalendarService } from "../services/calendar.service";
+import { CalendarView } from "../models/calendar-view.model";
 
 @Component({
-  selector: 'app-header',
+  selector: "app-header",
   imports: [
     MatIcon,
     MatButtonToggle,
@@ -19,8 +19,8 @@ import { CalendarView } from '../models/calendar-view.model';
     MatIconButton,
     DatePipe,
   ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  templateUrl: "./header.component.html",
+  styleUrl: "./header.component.scss",
 })
 export class HeaderComponent {
   viewDate: Date = new Date();

@@ -1,25 +1,25 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CalendarService } from './calendar.service';
-import { CalendarView } from '../models/calendar-view.model';
-import { Appointment } from '../models/appointment.model';
-import { Router } from '@angular/router';
-import { of, Subject } from 'rxjs';
-import { AppointmentsService } from './appointments.service';
-import { MatDialog } from '@angular/material/dialog';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { mockAppointment } from '../mocks/mock-appointment';
+import { fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { CalendarService } from "./calendar.service";
+import { CalendarView } from "../models/calendar-view.model";
+import { Appointment } from "../models/appointment.model";
+import { Router } from "@angular/router";
+import { of, Subject } from "rxjs";
+import { AppointmentsService } from "./appointments.service";
+import { MatDialog } from "@angular/material/dialog";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { mockAppointment } from "../mocks/mock-appointment";
 
 class FakeRouter {
   public events = new Subject<any>();
   navigate = jasmine
-    .createSpy('navigate')
+    .createSpy("navigate")
     .and.returnValue(Promise.resolve(true));
 }
 
 class FakeAppointmentsService {
-  updateEvent = jasmine.createSpy('updateEvent');
-  addEvent = jasmine.createSpy('addEvent');
-  removeEvent = jasmine.createSpy('removeEvent');
+  updateEvent = jasmine.createSpy("updateEvent");
+  addEvent = jasmine.createSpy("addEvent");
+  removeEvent = jasmine.createSpy("removeEvent");
 }
 
 class FakeMatDialog {
@@ -30,7 +30,7 @@ class FakeMatDialog {
   }
 }
 
-describe('CalendarService', () => {
+describe("CalendarService", () => {
   let service: CalendarService;
   let router: FakeRouter;
   let appointmentsService: FakeAppointmentsService;
@@ -53,18 +53,18 @@ describe('CalendarService', () => {
     dialog = TestBed.inject(MatDialog) as unknown as FakeMatDialog;
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should generate time slots on construction', () => {
+  it("should generate time slots on construction", () => {
     expect(service.timeSlots.length).toBe(24);
-    expect(service.timeSlots[0]).toBe('12:00 AM');
-    expect(service.timeSlots[23]).toBe('11:00 PM');
+    expect(service.timeSlots[0]).toBe("12:00 AM");
+    expect(service.timeSlots[23]).toBe("11:00 PM");
   });
 
-  describe('generateMonthView', () => {
-    it('should build a correct month view (days and weeks)', () => {
+  describe("generateMonthView", () => {
+    it("should build a correct month view (days and weeks)", () => {
       const testDate = new Date(2025, 0, 15);
       service.generateMonthView(testDate);
       const monthDays = service.monthDays();
@@ -78,8 +78,8 @@ describe('CalendarService', () => {
     });
   });
 
-  describe('generateWeekView', () => {
-    it('should generate exactly 7 days for week view', () => {
+  describe("generateWeekView", () => {
+    it("should generate exactly 7 days for week view", () => {
       const testDate = new Date(2025, 0, 15);
       service.generateWeekView(testDate);
       const weekDays = service.monthDays();
@@ -87,8 +87,8 @@ describe('CalendarService', () => {
     });
   });
 
-  describe('generateDayView', () => {
-    it('should generate a single day view', () => {
+  describe("generateDayView", () => {
+    it("should generate a single day view", () => {
       const testDate = new Date(2025, 0, 15);
       service.generateDayView(testDate);
       const dayArray = service.monthDays();
@@ -97,8 +97,8 @@ describe('CalendarService', () => {
     });
   });
 
-  describe('switchToView', () => {
-    it('should update currentView and navigate via the router', fakeAsync(() => {
+  describe("switchToView", () => {
+    it("should update currentView and navigate via the router", fakeAsync(() => {
       service.switchToView(CalendarView.Week);
       tick();
 
@@ -107,42 +107,42 @@ describe('CalendarService', () => {
     }));
   });
 
-  describe('drop', () => {
-    it('should call updateEvent on appointmentsService when dropping an appointment', () => {
+  describe("drop", () => {
+    it("should call updateEvent on appointmentsService when dropping an appointment", () => {
       const dropEvent = {
         item: { data: mockAppointment },
       } as CdkDragDrop<Appointment[]>;
 
-      service.drop(dropEvent, new Date(mockAppointment.start), '10:00 AM');
+      service.drop(dropEvent, new Date(mockAppointment.start), "10:00 AM");
       expect(appointmentsService.updateEvent).toHaveBeenCalled();
     });
   });
 
-  describe('addAppointment', () => {
-    it('should call addEvent on appointmentsService', () => {
+  describe("addAppointment", () => {
+    it("should call addEvent on appointmentsService", () => {
       service.addAppointment(mockAppointment);
       expect(appointmentsService.addEvent).toHaveBeenCalled();
     });
   });
 
-  describe('openDialog', () => {
-    it('should open the modal and add an appointment on dialog close', () => {
+  describe("openDialog", () => {
+    it("should open the modal and add an appointment on dialog close", () => {
       service.selectedDate = new Date(mockAppointment.start);
-      service.selectedStartTime = '10:00 AM';
-      spyOn(service, 'addAppointment');
+      service.selectedStartTime = "10:00 AM";
+      spyOn(service, "addAppointment");
 
       service.openDialog();
       expect(service.addAppointment).toHaveBeenCalled();
     });
   });
 
-  describe('handleAppointment', () => {
-    it('should update an appointment', () => {
+  describe("handleAppointment", () => {
+    it("should update an appointment", () => {
       const updatedAppointment = {
         ...mockAppointment,
-        title: 'Updated Title',
+        title: "Updated Title",
       };
-      spyOn(dialog, 'open').and.returnValue({
+      spyOn(dialog, "open").and.returnValue({
         afterClosed: () => of(updatedAppointment),
       });
 
@@ -152,8 +152,8 @@ describe('CalendarService', () => {
       );
     });
 
-    it('should remove an appointment', () => {
-      spyOn(dialog, 'open').and.returnValue({
+    it("should remove an appointment", () => {
+      spyOn(dialog, "open").and.returnValue({
         afterClosed: () => of({ remove: true, uuid: mockAppointment.uuid }),
       });
       service.handleAppointment(mockAppointment);
@@ -163,26 +163,26 @@ describe('CalendarService', () => {
     });
   });
 
-  describe('isSameDate', () => {
-    it('should return true for dates with the same year, month, and day', () => {
+  describe("isSameDate", () => {
+    it("should return true for dates with the same year, month, and day", () => {
       const d1 = new Date(2025, 0, 15);
       const d2 = new Date(2025, 0, 15);
       expect(service.isSameDate(d1, d2)).toBeTrue();
     });
 
-    it('should return false for dates that differ', () => {
+    it("should return false for dates that differ", () => {
       const d1 = new Date(2025, 0, 15);
       const d2 = new Date(2025, 0, 16);
       expect(service.isSameDate(d1, d2)).toBeFalse();
     });
   });
 
-  describe('getAppointmentLayout', () => {
-    it('should correctly calculate the appointment layout', () => {
+  describe("getAppointmentLayout", () => {
+    it("should correctly calculate the appointment layout", () => {
       const appointment: Appointment = {
         ...mockAppointment,
-        start: '2025-02-18T08:30:00.000Z',
-        end: '2025-02-18T10:00:00.000Z',
+        start: "2025-02-18T08:30:00.000Z",
+        end: "2025-02-18T10:00:00.000Z",
       };
 
       const layout = service.getAppointmentLayout(appointment);
@@ -190,8 +190,8 @@ describe('CalendarService', () => {
       const expectedStartSlotIndex = localStart.getHours();
 
       expect(layout.startSlotIndex).toBe(expectedStartSlotIndex);
-      expect(layout.appointmentTop).toBe(25 + 'px');
-      expect(layout.appointmentHeight).toBe(75 + 'px');
+      expect(layout.appointmentTop).toBe(25 + "px");
+      expect(layout.appointmentHeight).toBe(75 + "px");
     });
   });
 });

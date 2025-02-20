@@ -1,9 +1,9 @@
-import { Injectable, signal } from '@angular/core';
-import { v4 as uuid4 } from 'uuid';
-import { DUMMY_APPOINTMENTS } from '../mocks/dummy-appointments';
-import { Appointment } from '../models/appointment.model';
+import { Injectable, signal } from "@angular/core";
+import { v4 as uuid4 } from "uuid";
+import { DUMMY_APPOINTMENTS } from "../mocks/dummy-appointments";
+import { Appointment } from "../models/appointment.model";
 
-const APPOINTMENTS_STORAGE_KEY = 'appointments';
+const APPOINTMENTS_STORAGE_KEY = "appointments";
 
 const generateRandomColor = (): string => {
   const r = Math.floor(Math.random() * 256);
@@ -14,7 +14,7 @@ const generateRandomColor = (): string => {
 };
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AppointmentsService {
   private appointments = signal<Appointment[]>(DUMMY_APPOINTMENTS);
@@ -29,7 +29,7 @@ export class AppointmentsService {
     }
   }
 
-  addEvent({ start, end, title, description }: Omit<Appointment, 'color'>) {
+  addEvent({ start, end, title, description }: Omit<Appointment, "color">) {
     this.appointments.update((prevAppointments) => [
       ...prevAppointments,
       {
@@ -44,7 +44,7 @@ export class AppointmentsService {
     this.saveEvents();
   }
 
-  removeEvent(uuid: Appointment['uuid']) {
+  removeEvent(uuid: Appointment["uuid"]) {
     this.appointments.update((prevAppointments) =>
       prevAppointments.filter((appointment) => appointment.uuid !== uuid),
     );

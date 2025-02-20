@@ -1,23 +1,23 @@
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ModalComponent } from '../modal/modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
-import { AppointmentsService } from './appointments.service';
-import { CalendarView } from '../models/calendar-view.model';
-import { Appointment } from '../models/appointment.model';
+import { DestroyRef, inject, Injectable, signal } from "@angular/core";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { ModalComponent } from "../modal/modal.component";
+import { MatDialog } from "@angular/material/dialog";
+import { NavigationEnd, Router } from "@angular/router";
+import { filter } from "rxjs";
+import { AppointmentsService } from "./appointments.service";
+import { CalendarView } from "../models/calendar-view.model";
+import { Appointment } from "../models/appointment.model";
 
 const SLOT_HEIGHT = 50;
 const HOURS_IN_DAY = 24;
 const DAYS_IN_WEEK = 7;
 const MINUTES_IN_HOUR = 60;
-const BEFORE_MIDDAY = 'AM';
-const AFTER_MIDDAY = 'PM';
+const BEFORE_MIDDAY = "AM";
+const AFTER_MIDDAY = "PM";
 
 const convert12To24 = (value: string): string => {
-  const [time, modifier] = value.trim().split(' ');
-  let [hours, minutes] = time.split(':').map(Number);
+  const [time, modifier] = value.trim().split(" ");
+  let [hours, minutes] = time.split(":").map(Number);
 
   if (modifier.toUpperCase() === AFTER_MIDDAY && hours < 12) {
     hours += 12;
@@ -25,17 +25,17 @@ const convert12To24 = (value: string): string => {
   if (modifier.toUpperCase() === BEFORE_MIDDAY && hours === 12) {
     hours = 0;
   }
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
 };
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CalendarService {
   selectedDate: Date | null = null;
   selectedStartTime: string | undefined;
   timeSlots: string[] = [];
-  weekDays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  weekDays: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   monthDays = signal<Date[]>([]);
   weeks = signal<Date[][]>([]);
   currentView = signal<CalendarView>(CalendarView.Month);
@@ -53,7 +53,7 @@ export class CalendarService {
       .subscribe((event) => {
         const navEnd = event as NavigationEnd;
         const url = navEnd.urlAfterRedirects;
-        const viewParam = url.split('/')[1];
+        const viewParam = url.split("/")[1];
         if (viewParam) {
           switch (viewParam.toLowerCase()) {
             case CalendarView.Month:
@@ -158,7 +158,7 @@ export class CalendarService {
     }
 
     // Parse the new start hour and minute.
-    const timeParts = newStartTimeStr.split(':');
+    const timeParts = newStartTimeStr.split(":");
     const newStartHour = Number(timeParts[0]);
     const newStartMinute = Number(timeParts[1]);
     // Create a new Date for the appointment's start by combining newDate and the new time.
@@ -178,7 +178,7 @@ export class CalendarService {
     start,
     end,
     description,
-  }: Omit<Appointment, 'color'>) {
+  }: Omit<Appointment, "color">) {
     this.appointmentsService.addEvent({
       title,
       start,
@@ -195,7 +195,7 @@ export class CalendarService {
       ? convert12To24(this.selectedStartTime)
       : `${now.getHours()}:${now.getMinutes()}`;
 
-    const [startHour, startMinute] = startTime24.split(':').map(Number);
+    const [startHour, startMinute] = startTime24.split(":").map(Number);
 
     const startDate = new Date(baseDate);
     startDate.setHours(startHour, startMinute, 0, 0);
@@ -284,7 +284,7 @@ export class CalendarService {
   }
 
   isSameDate(date1: Date | string, date2: Date): boolean {
-    const d1 = typeof date1 === 'string' ? new Date(date1) : date1;
+    const d1 = typeof date1 === "string" ? new Date(date1) : date1;
     return (
       d1.getDate() === date2.getDate() &&
       d1.getMonth() === date2.getMonth() &&

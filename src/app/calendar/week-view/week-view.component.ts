@@ -1,21 +1,21 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal } from "@angular/core";
 import {
   CdkDrag,
   CdkDragDrop,
   CdkDragHandle,
   CdkDropList,
   CdkDropListGroup,
-} from '@angular/cdk/drag-drop';
-import { NgStyle } from '@angular/common';
-import { CalendarService } from '../../services/calendar.service';
-import { AppointmentsService } from '../../services/appointments.service';
-import { Appointment } from '../../models/appointment.model';
+} from "@angular/cdk/drag-drop";
+import { NgStyle } from "@angular/common";
+import { CalendarService } from "../../services/calendar.service";
+import { AppointmentsService } from "../../services/appointments.service";
+import { Appointment } from "../../models/appointment.model";
 
 @Component({
-  selector: 'app-week-view',
+  selector: "app-week-view",
   imports: [CdkDrag, CdkDragHandle, CdkDropList, CdkDropListGroup, NgStyle],
-  templateUrl: './week-view.component.html',
-  styleUrl: './week-view.component.scss',
+  templateUrl: "./week-view.component.html",
+  styleUrl: "./week-view.component.scss",
 })
 export class WeekViewComponent implements OnInit {
   private calendarService = inject(CalendarService);
